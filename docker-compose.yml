@@ -1,0 +1,28 @@
+version: '2.1'
+networks: {}
+volumes:
+  resin-data: {}
+services:
+  openwrt:
+    environment:
+      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
+    build:
+      context: .
+    expose:
+      - "80"
+      - "22"
+    ports:
+      - "80:80"
+      - "22:22"
+    privileged: true
+    tty: true
+    restart: on-failure
+    network_mode: host
+    volumes:
+      - 'resin-data:/data'
+    labels:
+      io.resin.features.kernel-modules: '1'
+      io.resin.features.firmware: '1'
+      io.resin.features.dbus: '1'
+      io.resin.features.supervisor-api: '1'
+      io.resin.features.resin-api: '1'

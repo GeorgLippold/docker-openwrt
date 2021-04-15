@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 
@@ -63,18 +63,25 @@ docker_build() {
 	docker build \
 		--build-arg ts="$(date)" \
 		--build-arg version="$(cat version.buildinfo)" \
-		-t "$IMAGE":"$TAG" .
+		-t "$IMAGE":"$TAG" . \
+		-f Dockerfile.local
 }
 
 cleanup() {
-	rm -rf rootfs.tar.gz version.buildinfo image.img
-	if [ -d "$tmpdir" ] ; then
-		rm -rf "$tmpdir"
-	fi
+#	rm -rf rootfs.tar.gz version.buildinfo image.img
+#	if [ -d "$tmpdir" ] ; then
+#		rm -rf "$tmpdir"
+#	fi
+	echo
 }
 
 test -n "$ARCH" || { echo "\$ARCH is unset. Exiting"; exit 1; }
 trap cleanup EXIT
-tmpdir=$(mktemp -u -p .)
+if [[ $OSTYPE =~ darwin ]] ; then
+	# tmpdir=$(basename $(mktemp -u -d -t .))
+	tmpdir=./
+else 
+	tmpdir=$(mktemp -u -p .)
+fi
 download_rootfs
 docker_build
