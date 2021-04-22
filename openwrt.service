@@ -3,11 +3,10 @@ Description="OpenWRT"
 After=network.target
 
 [Service]
-Type=forking
-ExecStart=/etc/init.d/rcS S boot
+Type=simple
+ExecStart=
 ExecStartPost=/bin/echo "Exit code is \"$?\""
 Restart=on-failure
-SuccessExitStatus=1 2 8 SIGKILL
 RemainAfterExit=yes
 
 [Install]

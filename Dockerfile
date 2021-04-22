@@ -24,4 +24,4 @@ LABEL org.opencontainers.image.created=$ts
 LABEL org.opencontainers.image.version=$version
 LABEL org.opencontainers.image.source=https://github.com/oofnikj/docker-openwrt
 
-CMD [ "/sbin/init" ]
+CMD [ "/sbin/init", "-d", "4", "-S" ]
